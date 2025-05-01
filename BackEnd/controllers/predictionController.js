@@ -144,16 +144,16 @@ const predictHeartDisease = async (req, res) => {
 
     // Prepare input data for the Random Forest model
     const inputData = [
-      patient.age,
-      patient.gender,
-      patient.chestPain,
-      patient.serumCholesterol,
-      patient.exerciseAngina,
-      patient.majorVessels,
-      patient.thalliumTest,
-      patient.bloodPressure,
-      patient.heartRate,
-      patient.restingElectro
+      Number(patient.age),
+      Number(patient.gender),
+      Number(patient.chestPain),
+      Number(patient.serumCholesterol),
+      Number(patient.exerciseAngina),
+      Number(patient.majorVessels),
+      Number(patient.thalliumTest),
+      Number(patient.bloodPressure),
+      Number(patient.heartRate),
+      Number(patient.restingElectro),
     ];
 
     // Make prediction using the trained Random Forest model

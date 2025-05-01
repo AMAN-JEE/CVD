@@ -11,8 +11,8 @@ const Stage3 = () => {
   useEffect(() => {
     const fetchPrediction = async () => {
       try {
-        // const response = await axios.get("/api/predict");
-        // setPredictionResult(response.data);
+        const response = await axios.get("/api/predict");
+        setPredictionResult(response.data);
       } catch (err) {
         setError("Error fetching prediction...");
       }
