@@ -12,6 +12,8 @@ const Stage1 = () => {
     exerciseAngina: "",
     majorVessels: "",
     thalliumTest: "",
+    systolicPressure: "",
+    diastolicPressure: "",
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [error, setError] = useState(null);
@@ -33,6 +35,8 @@ const Stage1 = () => {
       exerciseAngina: "",
       majorVessels: "",
       thalliumTest: "",
+      systolicPressure: "",
+      diastolicPressure: "",
     });
   };
 
@@ -180,6 +184,40 @@ const Stage1 = () => {
             rest)
           </option>
         </select>
+
+
+        <label>Systolic Pressure (mm Hg):</label>
+        <input
+          type="number"
+          name="systolicPressure"
+          value={patientData.systolicPressure}
+          onChange={handleInputChange}
+          min="50"
+          max="250"
+          required
+        />
+        {patientData.systolicPressure &&
+          (patientData.systolicPressure < 50 ||
+            patientData.systolicPressure > 250) && (
+            <p className="error">Enter a value between 50 and 250 mm Hg.</p>
+          )}
+
+        <label>Diastolic Pressure (mm Hg):</label>
+        <input
+          type="number"
+          name="diastolicPressure"
+          value={patientData.diastolicPressure}
+          onChange={handleInputChange}
+          min="30"
+          max="150"
+          required
+        />
+        {patientData.diastolicPressure &&
+          (patientData.diastolicPressure < 30 ||
+            patientData.diastolicPressure > 150) && (
+            <p className="error">Enter a value between 30 and 150 mm Hg.</p>
+          )}
+
 
         <div className="sub-btn">
           <button onClick={resetFunction}>
