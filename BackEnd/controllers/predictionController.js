@@ -27,8 +27,7 @@ const loadCSVData = (filePath) => {
             row.majorVessels !== null &&
             row.thalliumTest &&
             row.bloodPressure &&
-            row.heartRate && 
-            row.restingElectro
+            row.heartRate
           ) {
             // Push numeric data into the inputs array
             inputs.push([
@@ -41,7 +40,6 @@ const loadCSVData = (filePath) => {
               row.thalliumTest,
               row.bloodPressure,
               row.heartRate,
-              row.restingElectro,
             ]);
             outputs.push(row.disease);
           }
@@ -79,6 +77,7 @@ const calculateMetrics = (yTrue, yPred) => {
 // Train Random Forest model using data from CSV
 const trainRandomForestFromCSV = async () => {
   try {
+    // const { inputs, outputs } = await loadCSVData("./Dataset/Final_Combined_Data_Test.csv");
     const { inputs, outputs } = await loadCSVData("./Dataset/data.csv");
 
     // Ensure all input data is numeric
@@ -99,7 +98,7 @@ const trainRandomForestFromCSV = async () => {
     const rf = new RandomForestClassifier({
       nEstimators: 100, // Number of trees
     });
-
+    console.log("Training the Random Forest Model...");
     rf.train(xTrain, yTrain);
     console.log("Random Forest model trained successfully");
 
@@ -153,7 +152,6 @@ const predictHeartDisease = async (req, res) => {
       Number(patient.thalliumTest),
       Number(patient.bloodPressure),
       Number(patient.heartRate),
-      Number(patient.restingElectro),
     ];
 
     // Make prediction using the trained Random Forest model
