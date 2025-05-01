@@ -10,7 +10,7 @@ app.use(cors());
 app.use(express.json());
 
 // MongoDB Connection
-mongoose.connect('mongodb://localhost:27017/heart-disease-detection')
+mongoose.connect('mongodb://localhost:27017/CVD')
 .then(() => console.log('MongoDB connected'))
 .catch((err) => console.log(err));
 

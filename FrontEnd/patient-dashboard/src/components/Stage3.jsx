@@ -11,10 +11,10 @@ const Stage3 = () => {
   useEffect(() => {
     const fetchPrediction = async () => {
       try {
-        const response = await axios.get("/api/predict");
-        setPredictionResult(response.data);
+        // const response = await axios.get("/api/predict");
+        // setPredictionResult(response.data);
       } catch (err) {
-        setError("Error fetching prediction.");
+        setError("Error fetching prediction...");
       }
     };
 
@@ -70,9 +70,7 @@ const Stage3 = () => {
         <p>Loading prediction...</p>
       )}
 
-      <button onClick={proceedToHome} >
-        Back to Home
-      </button>
+      <button onClick={proceedToHome}>Back to Home</button>
     </div>
   );
 };

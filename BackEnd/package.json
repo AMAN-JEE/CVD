@@ -23,7 +23,7 @@
     "ml-matrix": "^6.11.1",
     "ml-random-forest": "^2.1.0",
     "ml-svm": "^2.1.2",
-    "mongoose": "^8.7.0",
+    "mongoose": "^8.9.4",
     "node-fetch": "^3.3.2",
     "node-gyp": "^10.2.0",
     "nodemon": "^3.1.7",

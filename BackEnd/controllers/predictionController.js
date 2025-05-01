@@ -27,7 +27,8 @@ const loadCSVData = (filePath) => {
             row.majorVessels !== null &&
             row.thalliumTest &&
             row.bloodPressure &&
-            row.heartRate
+            row.heartRate && 
+            row.restingElectro
           ) {
             // Push numeric data into the inputs array
             inputs.push([
@@ -40,6 +41,7 @@ const loadCSVData = (filePath) => {
               row.thalliumTest,
               row.bloodPressure,
               row.heartRate,
+              row.restingElectro,
             ]);
             outputs.push(row.disease);
           }
@@ -65,7 +67,7 @@ const calculateMetrics = (yTrue, yPred) => {
     else if (yTrue[i] === 0 && yPred[i] === 1) fp++; // False Positive
     else if (yTrue[i] === 1 && yPred[i] === 0) fn++; // False Negative
   }
-
+  console.log(`[TP:${tp} FP:${fp}] \n[FN:${fn} TN:${tn}] `);
   const accuracy = (tp + tn) / (tp + tn + fp + fn);
   const precision = tp / (tp + fp) || 0;
   const recall = tp / (tp + fn) || 0;
@@ -151,6 +153,7 @@ const predictHeartDisease = async (req, res) => {
       patient.thalliumTest,
       patient.bloodPressure,
       patient.heartRate,
+      patient.restingElectro
     ];
 
     // Make prediction using the trained Random Forest model
