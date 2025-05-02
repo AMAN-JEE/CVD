@@ -150,7 +150,7 @@ const predictHeartDisease = async (req, res) => {
       Number(patient.exerciseAngina),
       Number(patient.majorVessels),
       Number(patient.thalliumTest),
-      Number(patient.bloodPressure),
+      Number(patient.systolicPressure),
       Number(patient.heartRate),
     ];
 

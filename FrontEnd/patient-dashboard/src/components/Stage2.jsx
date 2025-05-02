@@ -5,7 +5,6 @@ import { useNavigate } from "react-router-dom";
 const Stage2 = () => {
   const [sensorData, setSensorData] = useState({
     heartRate: null,
-    bloodPressure: null,
     ecg: null,
   });
   const [isCollecting, setIsCollecting] = useState(false);
@@ -76,9 +75,6 @@ const Stage2 = () => {
             <div className="sensor-data">
               <p>
                 <b>Heart Rate:</b> {sensorData.heartRate}
-              </p>
-              <p>
-                <b>Blood Pressure:</b> {sensorData.bloodPressure}
               </p>
               <p>
                 <b>ECG:</b> {sensorData.ecg}

@@ -2,9 +2,8 @@ import Patient from "../models/patientModel.js";
 
 // Simulated sensor data
 const sensorData = {
-  bloodPressure: 112,
   heartRate: 125,
-  ecg: 0,// Simulated ECG readings
+  ecg: 10,// Simulated ECG readings
 };
 
 // Controller function to collect sensor data (Stage-2) and update patient data
@@ -21,7 +20,6 @@ const collectSensorData = async (req, res) => {
 
     // Update patient document with sensor data
     patient.heartRate = sensorData.heartRate;
-    patient.bloodPressure = sensorData.bloodPressure;
     patient.ecg = sensorData.ecg;
 
     // Save the updated patient data

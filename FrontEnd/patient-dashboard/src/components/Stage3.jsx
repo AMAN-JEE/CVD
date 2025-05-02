@@ -1,12 +1,14 @@
 import React, { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom"; // React Router for redirection
+import { useNavigate } from "react-router-dom";
 import axios from "axios";
+import jsPDF from "jspdf";
+import autoTable from "jspdf-autotable"; 
 
 const Stage3 = () => {
   const [predictionResult, setPredictionResult] = useState(null);
   const [patientData, setPatientData] = useState({});
-  const navigate = useNavigate(); // Hook for navigation
   const [error, setError] = useState(null);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchPrediction = async () => {
@@ -18,19 +20,16 @@ const Stage3 = () => {
       }
     };
 
-    fetchPrediction();
-  }, []);
-
-  useEffect(() => {
     const fetchPatientData = async () => {
       try {
         const response = await axios.get("/api/patient-data");
         setPatientData(response.data);
       } catch (err) {
-        setError("Error fetching Patient data.");
+        setError("Error fetching patient data.");
       }
     };
 
+    fetchPrediction();
     fetchPatientData();
   }, []);
 
@@ -38,36 +37,64 @@ const Stage3 = () => {
     navigate("/");
   };
 
+  const downloadPDF = () => {
+    const doc = new jsPDF();
+    doc.setFontSize(16);
+    doc.text("Cardiovascular Disease Prediction Report", 20, 20);
+
+    const details = [
+      ["Name", patientData.name || "N/A"],
+      ["Age", patientData.age || "N/A"],
+      ["Gender", patientData.gender === 1 ? "Male" : "Female"],
+      ["Chest Pain Type", patientData.chestPain ?? "N/A"],
+      ["Serum Cholesterol", patientData.serumCholesterol ?? "N/A"],
+      ["Exercise-Induced Angina", patientData.exerciseAngina === 1 ? "Yes" : "No"],
+      ["Major Vessels", patientData.majorVessels ?? "N/A"],
+      ["Thallium Test", patientData.thalliumTest ?? "N/A"],
+      ["Systolic Pressure", patientData.systolicPressure ?? "N/A"],
+      ["Diastolic Pressure", patientData.diastolicPressure ?? "N/A"],
+      ["Heart Rate", patientData.heartRate ?? "N/A"],
+      ["Prediction", predictionResult?.prediction ? "Disease Detected" : "No Disease Detected"],
+    ];
+
+    autoTable(doc, {
+      startY: 30,
+      head: [["Field", "Value"]],
+      body: details,
+    });
+
+    doc.save(`${patientData.name}_CVD_Report.pdf`);
+  };
+
   return (
     <div className="result-container">
       <h2>Stage-3: Heart Disease Prediction Result</h2>
       {error && <p className="error">{error}</p>}
 
-      {predictionResult ? (
+      {predictionResult && patientData.name ? (
         <div className="result-data">
-          <p>
-            <b>Name: </b>
-            {patientData.name}
-          </p>
-          <p>
-            <b>Age: </b>
-            {patientData.age}
-          </p>
-          <p>
-            <b>Gender: </b>
-            {patientData.gender ? "Male" : "Female"}
-          </p>
-          <p>
-            <b>Heart Disease Prediction:</b>{" "}
+          <p><b>Name:</b> {patientData.name}</p>
+          <p><b>Age:</b> {patientData.age}</p>
+          <p><b>Gender:</b> {patientData.gender === 1 ? "Male" : "Female"}</p>
+          <p><b>Chest Pain Type:</b> {patientData.chestPain}</p>
+          <p><b>Serum Cholesterol:</b> {patientData.serumCholesterol}</p>
+          <p><b>Exercise Angina:</b> {patientData.exerciseAngina === 1 ? "Yes" : "No"}</p>
+          <p><b>Major Vessels:</b> {patientData.majorVessels}</p>
+          <p><b>Thallium Test:</b> {patientData.thalliumTest}</p>
+          <p><b>Systolic Pressure:</b> {patientData.systolicPressure}</p>
+          <p><b>Diastolic Pressure:</b> {patientData.diastolicPressure}</p>
+          <p><b>Heart Rate:</b> {patientData.heartRate}</p>
+          <p><b>Prediction:</b>{" "}
             {predictionResult.prediction ? (
               <span className="red">Disease Detected</span>
             ) : (
-              <span className="green">Disease Not Detected</span>
+              <span className="green">No Disease Detected</span>
             )}
           </p>
+          <button onClick={downloadPDF}>Download Report as PDF</button>
         </div>
       ) : (
-        <p>Loading prediction...</p>
+        <p>Loading patient data...</p>
       )}
 
       <button onClick={proceedToHome}>Back to Home</button>
