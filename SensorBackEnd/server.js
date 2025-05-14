@@ -26,9 +26,6 @@ async function startServer() {
 
     console.log("✅ Connected to MongoDB!");
 
-    // Import model after DB connection
-    // const Patient = (await import("../Backend/models/patientModel.js")).default;
-
     // Define route here
     app.post("/data", async (req, res) => {
       try {
@@ -40,7 +37,7 @@ async function startServer() {
           console.log("❌ Missing Data Fields");
           return res.status(400).send("❌ Missing Data Fields");
         }
-        
+
         console.log("Connection State:", mongoose.connection.readyState);
         const patient = await Patient.findOne().sort({ createdAt: -1 }).exec();
 
