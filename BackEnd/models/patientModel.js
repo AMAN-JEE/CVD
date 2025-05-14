@@ -11,9 +11,9 @@ const patientSchema = new mongoose.Schema({
   thalliumTest: { type: Number, required: true },
   systolicPressure: { type: Number, required: true },
   diastolicPressure: { type: Number, required: true },
-  heartRate: { type: Number }, // Optional field
-  ecg: { type: Number }, // Optional field
-  spo2: { type: Number }, // Optional field
+  heartRate: { type: Number, default: 10 }, // Optional field
+  ecg: { type: Number, default: 10  }, // Optional field
+  spo2: { type: Number, default: 10  }, // Optional field
 }, { timestamps: true });
 
 export default mongoose.model('Patient', patientSchema);

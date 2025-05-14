@@ -20,6 +20,7 @@
   "homepage": "https://github.com/AMAN-JEE/CVD#readme",
   "dependencies": {
     "body-parser": "^2.2.0",
+    "cors": "^2.8.5",
     "express": "^5.1.0",
     "global": "^4.4.0",
     "mongoose": "^8.14.2"

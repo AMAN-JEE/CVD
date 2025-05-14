@@ -1,46 +1,76 @@
-import express from 'express';
-import mongoose from 'mongoose';
-import bodyParser from 'body-parser';
-import Patient from "../Backend/models/patientModel.js";
+import express from "express";
+import cors from "cors";
+import mongoose from "mongoose";
+
+const patientSchema = new mongoose.Schema({
+  heartRate: Number,
+  spo2: Number,
+  ecg: Number
+}, {
+  timestamps: true // ⚠️ Needed for `createdAt`
+});
+
+const Patient = mongoose.model('Patient', patientSchema);
 
 const app = express();
 const PORT = 4000;
 
-// Middleware to parse JSON data
-app.use(bodyParser.json());
+// Middleware
+app.use(cors());
+app.use(express.json());
 
-// Connect to MongoDB
-mongoose.connect("mongodb://127.0.0.1:27017/CVD").then(() => {
+// Function to start server after DB connects
+async function startServer() {
+  try {
+    await mongoose.connect("mongodb+srv://cvdproject:cvd123456@cvd-cluster.arfmy9f.mongodb.net/CVD_DB?retryWrites=true&w=majority&appName=CVD-CLUSTER");
+
     console.log("✅ Connected to MongoDB!");
-}).catch(err => {
-    console.error("❌ MongoDB Connection Error:", err);
-});
 
-// Route to receive data from ESP8266
-app.post("/data", async (req, res) => {
-    try {
-        console.log("📥 Received Request:", req.body);  // Log incoming data
+    // Import model after DB connection
+    // const Patient = (await import("../Backend/models/patientModel.js")).default;
 
-        // Check if all required fields exist
+    // Define route here
+    app.post("/data", async (req, res) => {
+      try {
+        console.log("📥 Received Request:", req.body);
+
         const { heartRate, spo2, ecg } = req.body;
+
         if (heartRate === undefined || spo2 === undefined || ecg === undefined) {
-            console.log("❌ Missing Data Fields");
-            return res.status(400).send("❌ Missing Data Fields");
+          console.log("❌ Missing Data Fields");
+          return res.status(400).send("❌ Missing Data Fields");
+        }
+        
+        console.log("Connection State:", mongoose.connection.readyState);
+        const patient = await Patient.findOne().sort({ createdAt: -1 }).exec();
+
+        if (!patient) {
+          return res.status(404).json({ error: "No patient data found to update." });
         }
 
-        // Save data to MongoDB
-        const newData = new Patient({ heartRate, spo2, ecg });
-        await newData.save();
-        
+        patient.heartRate = heartRate;
+        patient.spo2 = spo2;
+        patient.ecg = ecg;
+
+        await patient.save();
         console.log("✅ Data successfully stored in MongoDB!");
         res.status(200).send("✅ Data saved to MongoDB");
-    } catch (error) {
+
+      } catch (error) {
         console.error("❌ Error saving data:", error);
         res.status(500).send("❌ Server Error");
-    }
-});
+      }
+    });
 
-// Start server
-app.listen(PORT, () => {
-    console.log(`🚀 Server running on http://localhost:${PORT}`);
-});
+    // Start Express server
+    app.listen(PORT, () => {
+      console.log(`🚀 Server is running on http://localhost:${PORT}`);
+    });
+
+  } catch (error) {
+    console.error("❌ Failed to connect to MongoDB:", error.message);
+    process.exit(1);
+  }
+}
+
+startServer();

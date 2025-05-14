@@ -54,6 +54,8 @@ const Stage3 = () => {
       ["Systolic Pressure", patientData.systolicPressure ?? "N/A"],
       ["Diastolic Pressure", patientData.diastolicPressure ?? "N/A"],
       ["Heart Rate", patientData.heartRate ?? "N/A"],
+      ["Ecg Value", patientData.ecg ?? "N/A"],
+      ["SpO2 Value", patientData.spo2 ?? "N/A"],
       ["Prediction", predictionResult?.prediction ? "Disease Detected" : "No Disease Detected"],
     ];
 
@@ -84,11 +86,13 @@ const Stage3 = () => {
           <p><b>Systolic Pressure:</b> {patientData.systolicPressure}</p>
           <p><b>Diastolic Pressure:</b> {patientData.diastolicPressure}</p>
           <p><b>Heart Rate:</b> {patientData.heartRate}</p>
+          <p><b>Ecg Value:</b> {patientData.ecg}</p>
+          <p><b>SpO2 Value:</b> {patientData.spo2}</p>
           <p><b>Prediction:</b>{" "}
             {predictionResult.prediction ? (
               <span className="red">Disease Detected</span>
             ) : (
-              <span className="green">No Disease Detected</span>
+              <span className="green">Wow! No Disease Detected</span>
             )}
           </p>
           <button onClick={downloadPDF}>Download Report as PDF</button>

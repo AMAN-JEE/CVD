@@ -6,6 +6,7 @@ const Stage2 = () => {
   const [sensorData, setSensorData] = useState({
     heartRate: null,
     ecg: null,
+    spo2: null,
   });
   const [isCollecting, setIsCollecting] = useState(false);
   const [error, setError] = useState(null);
@@ -31,7 +32,7 @@ const Stage2 = () => {
   }, [isActive, countdown]);
 
   const startCountdown = () => {
-    setCountdown(10); // Reset countdown to 10 seconds
+    setCountdown(3); // Reset countdown to 10 seconds
     setIsActive(true); // Start the countdown
   };
 
@@ -50,7 +51,7 @@ const Stage2 = () => {
       } finally {
         setIsCollecting(false);
       }
-    },10000);
+    },3000);
   };
 
   const proceedToStage3 = () => {
@@ -78,6 +79,9 @@ const Stage2 = () => {
               </p>
               <p>
                 <b>ECG:</b> {sensorData.ecg}
+              </p>
+              <p>
+                <b>SpO2:</b> {sensorData.spo2}
               </p>
               <button onClick={proceedToStage3}>Proceed Next</button>
             </div>
