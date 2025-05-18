@@ -1,7 +1,9 @@
 import React, { useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom"; // React Router for redirection
+import baseurl from "../constant.js"
 
+console.log(baseurl);
 const Stage1 = () => {
   const [patientData, setPatientData] = useState({
     name: "",
@@ -45,7 +47,7 @@ const Stage1 = () => {
     e.preventDefault();
     setIsSubmitting(true);
     try {
-      await axios.post("/api/patient-details", patientData);
+      await axios.post(`${baseurl}/api/patient-details`, patientData);
       alert("Data submitted successfully!");
       navigate("/stage-2"); // Redirect to Stage-2 after success
     } catch (error) {

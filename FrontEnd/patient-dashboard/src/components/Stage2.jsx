@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import baseurl from "../constant.js"
 
 const Stage2 = () => {
   const [sensorData, setSensorData] = useState({
@@ -44,7 +45,7 @@ const Stage2 = () => {
     setTimeout(async ()=>{
       try {
         setIsCollecting(true);
-        const response = await axios.get("/api/start-sensor");
+        const response = await axios.get(`${baseurl}/api/start-sensor`);
         setSensorData(response.data); // Simulating real-time data fetch
       } catch (err) {
         setError("Error starting sensor data collection.");
