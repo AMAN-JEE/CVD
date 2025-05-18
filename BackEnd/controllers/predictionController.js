@@ -26,8 +26,11 @@ const loadCSVData = (filePath) => {
             row.exerciseAngina !== null &&
             row.majorVessels !== null &&
             row.thalliumTest &&
-            row.bloodPressure &&
-            row.heartRate
+            row.systolicPressure &&
+            row.diastolicPressure &&
+            row.heartRate &&
+            row.ecg &&
+            row.spo2
           ) {
             // Push numeric data into the inputs array
             inputs.push([
@@ -38,8 +41,11 @@ const loadCSVData = (filePath) => {
               row.exerciseAngina,
               row.majorVessels,
               row.thalliumTest,
-              row.bloodPressure,
+              row.systolicPressure,
+              row.diastolicPressure,
               row.heartRate,
+              row.ecg,
+              row.spo2,
             ]);
             outputs.push(row.disease);
           }
@@ -77,8 +83,7 @@ const calculateMetrics = (yTrue, yPred) => {
 // Train Random Forest model using data from CSV
 const trainRandomForestFromCSV = async () => {
   try {
-    // const { inputs, outputs } = await loadCSVData("./Dataset/Final_Combined_Data_Test.csv");
-    const { inputs, outputs } = await loadCSVData("./Dataset/data.csv");
+    const { inputs, outputs } = await loadCSVData("./Dataset/CVD_Data.csv");
 
     // Ensure all input data is numeric
     const numericInputs = inputs.map((input) =>
@@ -96,7 +101,7 @@ const trainRandomForestFromCSV = async () => {
 
     // Initialize and train the Random Forest model
     const rf = new RandomForestClassifier({
-      nEstimators: 100, // Number of trees
+      nEstimators: 50, // Number of trees
     });
     console.log("Training the Random Forest Model...");
     rf.train(xTrain, yTrain);
@@ -151,7 +156,10 @@ const predictHeartDisease = async (req, res) => {
       Number(patient.majorVessels),
       Number(patient.thalliumTest),
       Number(patient.systolicPressure),
+      Number(patient.diastolicPressure),
       Number(patient.heartRate),
+      Number(patient.ecg),
+      Number(patient.spo2),
     ];
 
     // Make prediction using the trained Random Forest model
