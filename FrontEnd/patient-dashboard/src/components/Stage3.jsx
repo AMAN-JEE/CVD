@@ -2,8 +2,8 @@ import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import jsPDF from "jspdf";
-import autoTable from "jspdf-autotable"; 
-import baseurl from "../constant.js"
+import autoTable from "jspdf-autotable";
+import baseurl from "../constant.js";
 
 const Stage3 = () => {
   const [predictionResult, setPredictionResult] = useState(null);
@@ -49,7 +49,10 @@ const Stage3 = () => {
       ["Gender", patientData.gender === 1 ? "Male" : "Female"],
       ["Chest Pain Type", patientData.chestPain ?? "N/A"],
       ["Serum Cholesterol", patientData.serumCholesterol ?? "N/A"],
-      ["Exercise-Induced Angina", patientData.exerciseAngina === 1 ? "Yes" : "No"],
+      [
+        "Exercise-Induced Angina",
+        patientData.exerciseAngina === 1 ? "Yes" : "No",
+      ],
       ["Major Vessels", patientData.majorVessels ?? "N/A"],
       ["Thallium Test", patientData.thalliumTest ?? "N/A"],
       ["Systolic Pressure", patientData.systolicPressure ?? "N/A"],
@@ -57,7 +60,12 @@ const Stage3 = () => {
       ["Heart Rate", patientData.heartRate ?? "N/A"],
       ["Ecg Value", patientData.ecg ?? "N/A"],
       ["SpO2 Value", patientData.spo2 ?? "N/A"],
-      ["Prediction", predictionResult?.prediction ? "Disease Detected" : "No Disease Detected"],
+      [
+        "Prediction",
+        predictionResult?.prediction
+          ? "Disease Detected"
+          : "No Disease Detected",
+      ],
     ];
 
     autoTable(doc, {
@@ -76,33 +84,62 @@ const Stage3 = () => {
 
       {predictionResult && patientData.name ? (
         <div className="result-data">
-          <p><b>Name:</b> {patientData.name}</p>
-          <p><b>Age:</b> {patientData.age}</p>
-          <p><b>Gender:</b> {patientData.gender === 1 ? "Male" : "Female"}</p>
-          <p><b>Chest Pain Type:</b> {patientData.chestPain}</p>
-          <p><b>Serum Cholesterol:</b> {patientData.serumCholesterol}</p>
-          <p><b>Exercise Angina:</b> {patientData.exerciseAngina === 1 ? "Yes" : "No"}</p>
-          <p><b>Major Vessels:</b> {patientData.majorVessels}</p>
-          <p><b>Thallium Test:</b> {patientData.thalliumTest}</p>
-          <p><b>Systolic Pressure:</b> {patientData.systolicPressure}</p>
-          <p><b>Diastolic Pressure:</b> {patientData.diastolicPressure}</p>
-          <p><b>Heart Rate:</b> {patientData.heartRate}</p>
-          <p><b>Ecg Value:</b> {patientData.ecg}</p>
-          <p><b>SpO2 Value:</b> {patientData.spo2}</p>
-          <p><b>Prediction:</b>{" "}
+          <p>
+            <b>Name:</b> {patientData.name}
+          </p>
+          <p>
+            <b>Age:</b> {patientData.age}
+          </p>
+          <p>
+            <b>Gender:</b> {patientData.gender === 1 ? "Male" : "Female"}
+          </p>
+          <p>
+            <b>Chest Pain Type:</b> {patientData.chestPain}
+          </p>
+          <p>
+            <b>Serum Cholesterol:</b> {patientData.serumCholesterol}
+          </p>
+          <p>
+            <b>Exercise Angina:</b>{" "}
+            {patientData.exerciseAngina === 1 ? "Yes" : "No"}
+          </p>
+          <p>
+            <b>Major Vessels:</b> {patientData.majorVessels}
+          </p>
+          <p>
+            <b>Thallium Test:</b> {patientData.thalliumTest}
+          </p>
+          <p>
+            <b>Systolic Pressure:</b> {patientData.systolicPressure}
+          </p>
+          <p>
+            <b>Diastolic Pressure:</b> {patientData.diastolicPressure}
+          </p>
+          <p>
+            <b>Heart Rate:</b> {patientData.heartRate}
+          </p>
+          <p>
+            <b>Ecg Value:</b> {patientData.ecg}
+          </p>
+          <p>
+            <b>SpO2 Value:</b> {patientData.spo2}
+          </p>
+          <p>
+            <b>Prediction:</b>{" "}
             {predictionResult.prediction ? (
-              <span className="red">Disease Detected</span>
+              <span className="red">Disease Detected 💔</span>
             ) : (
               <span className="green">Wow! No Disease Detected</span>
             )}
           </p>
-          <button onClick={downloadPDF}>Download Report as PDF</button>
+          <button onClick={downloadPDF}>Download Report</button>
         </div>
       ) : (
         <p>Loading patient data...</p>
       )}
-
-      <button onClick={proceedToHome}>Back to Home</button>
+      <div className="download-btn">
+        <button onClick={proceedToHome}>Back to Home</button>
+      </div>
     </div>
   );
 };

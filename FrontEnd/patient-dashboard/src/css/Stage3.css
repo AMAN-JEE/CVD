@@ -1,0 +1,128 @@
+/* Result Container */
+.result-container {
+  max-width: 1100px;
+  margin: 40px auto;
+  padding: 40px;
+  background: rgba(255, 255, 255, 0.65);
+  backdrop-filter: blur(12px);
+  border-radius: 20px;
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.4);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  font-family: "Poppins", sans-serif;
+  color: #2e3b4e;
+}
+
+/* Heading */
+.result-container h2 {
+  text-align: center;
+  margin-bottom: 30px;
+  font-size: 2rem;
+  color: #0077b6;
+}
+
+/* Error */
+.error {
+  color: #d62828;
+  font-size: 0.9rem;
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+/* Result Data Grid */
+.result-data {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 20px 40px;
+  margin-top: 30px;
+  text-align: left;
+  width: 100%;
+  max-width: 800px;
+  font-size: 1rem;
+  color: #0077b6;
+}
+
+/* Result Paragraph */
+.result-data p {
+  margin: 0;
+  font-weight: 500;
+}
+
+/* Prediction Result Colors */
+.red {
+  color: #d62828;
+  font-weight: 600;
+}
+
+.green {
+  color: #28a745;
+  font-weight: 600;
+}
+
+/* Buttons - common styling */
+.result-data > button {
+  grid-column: span 2;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 20px;
+  padding: 12px 25px;
+  font-size: 1rem;
+  border-radius: 10px;
+  border: none;
+  color: white;
+  background: linear-gradient(to right, #0077b6, #00b4d8);
+  cursor: pointer;
+  box-shadow: 0 4px 12px rgba(0, 119, 182, 0.3);
+  transition: 0.3s ease;
+  margin: 20px auto 0 auto;
+  display: block;
+  max-width: 220px;
+}
+
+.download-btn > button {
+  padding: 12px 25px;
+  font-size: 1rem;
+  border-radius: 10px;
+  border: none;
+  color: white;
+  background: linear-gradient(to right, #0077b6, #00b4d8);
+  cursor: pointer;
+  box-shadow: 0 4px 12px rgba(0, 119, 182, 0.3);
+  transition: 0.3s ease;
+  margin: 20px auto 0 auto;
+  display: block;
+  max-width: 220px;
+}
+
+/* Hover effect */
+.download-btn > button:hover:not(:disabled),
+.result-data button:hover:not(:disabled) {
+  transform: translateY(-2px);
+  opacity: 0.95;
+}
+
+/* Disabled state */
+.download-btn > button:disabled,
+.result-data button:disabled {
+  background: #adb5bd;
+  cursor: not-allowed;
+  opacity: 0.6;
+  box-shadow: none;
+}
+
+/* Responsive Layout */
+@media (max-width: 768px) {
+  .result-data {
+    grid-template-columns: 1fr;
+    text-align: center;
+  }
+
+  .result-container > button,
+  .result-data button {
+    width: 100%;
+    max-width: 100%;
+  }
+}

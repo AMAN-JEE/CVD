@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
-import baseurl from "../constant.js"
+import baseurl from "../constant.js";
 
 const Stage2 = () => {
   const [sensorData, setSensorData] = useState({
@@ -41,8 +41,8 @@ const Stage2 = () => {
   const startSensorReading = async () => {
     startCountdown();
     setBtndisable(true);
-    
-    setTimeout(async ()=>{
+
+    setTimeout(async () => {
       try {
         setIsCollecting(true);
         const response = await axios.get(`${baseurl}/api/start-sensor`);
@@ -52,7 +52,7 @@ const Stage2 = () => {
       } finally {
         setIsCollecting(false);
       }
-    },3000);
+    }, 3000);
   };
 
   const proceedToStage3 = () => {
@@ -68,7 +68,15 @@ const Stage2 = () => {
         <p>Collecting sensor data...</p>
       ) : (
         <>
-          <p>{isActive ? <><b>Time remaining: {countdown} seconds </b></>: ""}</p>
+          <p>
+            {isActive ? (
+              <>
+                <b>Time remaining: {countdown} seconds </b>
+              </>
+            ) : (
+              ""
+            )}
+          </p>
           <button onClick={startSensorReading} disabled={btndisable}>
             Start Reading
           </button>
@@ -84,6 +92,10 @@ const Stage2 = () => {
               <p>
                 <b>SpO2:</b> {sensorData.spo2}
               </p>
+            </div>
+          )}
+          {sensorData.heartRate && (
+            <div className="sensor-container">
               <button onClick={proceedToStage3}>Proceed Next</button>
             </div>
           )}

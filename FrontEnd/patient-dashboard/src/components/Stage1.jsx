@@ -220,7 +220,6 @@ const Stage1 = () => {
             <p className="error">Enter a value between 30 and 150 mm Hg.</p>
           )}
 
-
         <div className="sub-btn">
           <button onClick={resetFunction}>
             Reset
