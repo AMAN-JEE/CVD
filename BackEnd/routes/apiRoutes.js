@@ -13,7 +13,11 @@ router.get('/start-sensor', sensorController.collectSensorData);
 // Stage-3: Predict heart disease based on data
 router.get('/predict', predictionController.predictHeartDisease);
 
-//Route to fetch the patient data
+// Route to fetch patient data
 router.get('/patient-data', sensorController.sendPatientData);
+
+// Sensor Flag Control
+router.get('/set-flag', sensorController.setSensorFlag);
+router.get('/get-flag', sensorController.getSensorFlag);
 
 export default router;

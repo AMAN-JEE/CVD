@@ -3,9 +3,12 @@ import Patient from "../models/patientModel.js";
 // Simulated sensor data
 const sensorData = {
   heartRate: null,
-  ecg: null,// Simulated ECG readings
+  ecg: null, // Simulated ECG readings
   spo2: null,
 };
+
+// Sensor flag variable
+let sensorFlag = 0;  // 0 = idle, 1 = start reading
 
 // Controller function to collect sensor data (Stage-2) and update patient data
 const collectSensorData = async (req, res) => {
@@ -27,7 +30,6 @@ const collectSensorData = async (req, res) => {
     // Save the updated patient data
     await patient.save();
     res.status(200).json(sensorData);
-    // res.status(200).json({ message: 'Sensor data collected and patient data updated successfully.' });
   } catch (error) {
     res
       .status(500)
@@ -35,9 +37,9 @@ const collectSensorData = async (req, res) => {
   }
 };
 
+// Send patient data (used in /patient-data route)
 const sendPatientData = async (req, res) => {
   try {
-    // Retrieve the most recent patient record (from Stage-1)
     const patient = await Patient.findOne().sort({ createdAt: -1 }).exec();
 
     if (!patient) {
@@ -50,4 +52,27 @@ const sendPatientData = async (req, res) => {
   }
 };
 
-export default { collectSensorData, sendPatientData };
+// NEW: Set sensorFlag from frontend
+const setSensorFlag = (req, res) => {
+  const value = parseInt(req.query.value);
+  if (isNaN(value) || (value !== 0 && value !== 1)) {
+    return res.status(400).json({ error: "Invalid flag value" });
+  }
+
+  sensorFlag = value;
+  console.log(`Sensor flag updated to: ${sensorFlag}`);
+  res.status(200).json({ status: "ok", flag: sensorFlag });
+};
+
+// NEW: Get sensorFlag (polled by ESP8266)
+const getSensorFlag = (req, res) => {
+  res.status(200).json({ flag: sensorFlag });
+};
+
+// Final export
+export default {
+  collectSensorData,
+  sendPatientData,
+  setSensorFlag,
+  getSensorFlag,
+};

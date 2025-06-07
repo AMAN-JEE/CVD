@@ -33,27 +33,59 @@ const Stage2 = () => {
   }, [isActive, countdown]);
 
   const startCountdown = () => {
-    setCountdown(3); // Reset countdown to 10 seconds
+    setCountdown(10); // Reset countdown to 10 seconds
     setIsActive(true); // Start the countdown
   };
 
   // Function to start sensor data reading
+  // const startSensorReading = async () => {
+  //   startCountdown();
+  //   setBtndisable(true);
+
+  //   setTimeout(async () => {
+  //     try {
+  //       setIsCollecting(true);
+  //       const response = await axios.get(`${baseurl}/api/start-sensor`);
+  //       setSensorData(response.data); // Simulating real-time data fetch
+  //     } catch (err) {
+  //       setError("Error starting sensor data collection.");
+  //     } finally {
+  //       setIsCollecting(false);
+  //     }
+  //   }, 3000);
+  // };
+
   const startSensorReading = async () => {
+  try {
+    // 1️⃣ Set flag = 1 → tell ESP to start collecting
+    await axios.get(`${baseurl}/set-flag?value=1`);
+
     startCountdown();
     setBtndisable(true);
 
     setTimeout(async () => {
       try {
         setIsCollecting(true);
+
+        // 2️⃣ Call start-sensor API → this will return collected data
         const response = await axios.get(`${baseurl}/api/start-sensor`);
-        setSensorData(response.data); // Simulating real-time data fetch
+        setSensorData(response.data);
+
       } catch (err) {
         setError("Error starting sensor data collection.");
       } finally {
         setIsCollecting(false);
+        await new Promise(resolve => setTimeout(resolve, 2000));  // small wait
+        // 3️⃣ Reset flag = 0 → tell ESP to stop collecting
+        await axios.get(`${baseurl}/set-flag?value=0`);
       }
-    }, 3000);
-  };
+    }, 10000);
+
+  } catch (err) {
+    setError("Error setting sensor flag.");
+  }
+};
+
 
   const proceedToStage3 = () => {
     navigate("/stage-3");
