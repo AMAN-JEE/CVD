@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import baseurl from "../constant.js";
+import baseurlsensor from "../constant.js";
 
 const Stage2 = () => {
   const [sensorData, setSensorData] = useState({
@@ -33,7 +34,7 @@ const Stage2 = () => {
   }, [isActive, countdown]);
 
   const startCountdown = () => {
-    setCountdown(10); // Reset countdown to 10 seconds
+    setCountdown(15); // Reset countdown to 10 seconds
     setIsActive(true); // Start the countdown
   };
 
@@ -57,9 +58,11 @@ const Stage2 = () => {
 
   const startSensorReading = async () => {
   try {
-    // 1️⃣ Set flag = 1 → tell ESP to start collecting
-    await axios.get(`${baseurl}/set-flag?value=1`);
+    // 1️⃣ First, SET FLAG = 1
+    await axios.post(`${baseurlsensor}/set-flag`, { value: 1 });
+    console.log("✅ Sensor flag set to 1");
 
+    // 2️⃣ Then start countdown and rest of the flow
     startCountdown();
     setBtndisable(true);
 
@@ -67,25 +70,24 @@ const Stage2 = () => {
       try {
         setIsCollecting(true);
 
-        // 2️⃣ Call start-sensor API → this will return collected data
+        // 3️⃣ Now call your start-sensor route
         const response = await axios.get(`${baseurl}/api/start-sensor`);
         setSensorData(response.data);
 
+        // (Optional) You can reset flag to 0 after collecting data:
+        await axios.post(`${baseurlsensor}/set-flag`, { value: 0 });
+        console.log("✅ Sensor flag reset to 0");
       } catch (err) {
         setError("Error starting sensor data collection.");
       } finally {
         setIsCollecting(false);
-        await new Promise(resolve => setTimeout(resolve, 2000));  // small wait
-        // 3️⃣ Reset flag = 0 → tell ESP to stop collecting
-        await axios.get(`${baseurl}/set-flag?value=0`);
       }
-    }, 10000);
-
+    }, 15000);
   } catch (err) {
+    console.error("Error setting sensor flag:", err);
     setError("Error setting sensor flag.");
   }
 };
-
 
   const proceedToStage3 = () => {
     navigate("/stage-3");

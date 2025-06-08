@@ -1,2 +1,4 @@
 const baseurl = "https://cvd-zsxb.onrender.com";
-export default baseurl;
+const baseurlsensor = "https://sensorbackend-production.up.railway.app";
+
+export default {baseurl, baseurlsensor};
