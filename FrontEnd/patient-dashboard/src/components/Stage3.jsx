@@ -3,7 +3,10 @@ import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import jsPDF from "jspdf";
 import autoTable from "jspdf-autotable";
-import baseurl from "../constant.js";
+// import baseurl from "../constant.js";
+import urls from '../constant.js';
+// urls.baseurl
+// urls.baseurlsensor
 
 const Stage3 = () => {
   const [predictionResult, setPredictionResult] = useState(null);
@@ -14,7 +17,7 @@ const Stage3 = () => {
   useEffect(() => {
     const fetchPrediction = async () => {
       try {
-        const response = await axios.get(`${baseurl}/api/predict`);
+        const response = await axios.get(`${urls.baseurl}/api/predict`);
         setPredictionResult(response.data);
       } catch (err) {
         setError("Error fetching prediction...");
@@ -23,7 +26,7 @@ const Stage3 = () => {
 
     const fetchPatientData = async () => {
       try {
-        const response = await axios.get(`${baseurl}/api/patient-data`);
+        const response = await axios.get(`${urls.baseurl}/api/patient-data`);
         setPatientData(response.data);
       } catch (err) {
         setError("Error fetching patient data.");

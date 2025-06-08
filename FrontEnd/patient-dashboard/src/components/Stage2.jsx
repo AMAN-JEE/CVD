@@ -1,8 +1,11 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
-import baseurl from "../constant.js";
-import baseurlsensor from "../constant.js";
+// import baseurl from "../constant.js";
+// import baseurlsensor from "../constant.js";
+import urls from '../constant.js';
+// urls.baseurl
+// urls.baseurlsensor
 
 const Stage2 = () => {
   const [sensorData, setSensorData] = useState({
@@ -59,7 +62,7 @@ const Stage2 = () => {
   const startSensorReading = async () => {
   try {
     // 1️⃣ First, SET FLAG = 1
-    await axios.post(`${baseurlsensor}/set-flag`, { value: 1 });
+    await axios.post(`${urls.baseurlsensor}/set-flag`, { value: 1 });
     console.log("✅ Sensor flag set to 1");
 
     // 2️⃣ Then start countdown and rest of the flow
@@ -71,11 +74,11 @@ const Stage2 = () => {
         setIsCollecting(true);
 
         // 3️⃣ Now call your start-sensor route
-        const response = await axios.get(`${baseurl}/api/start-sensor`);
+        const response = await axios.get(`${urls.baseurl}/api/start-sensor`);
         setSensorData(response.data);
 
         // (Optional) You can reset flag to 0 after collecting data:
-        await axios.post(`${baseurlsensor}/set-flag`, { value: 0 });
+        await axios.post(`${urls.baseurlsensor}/set-flag`, { value: 0 });
         console.log("✅ Sensor flag reset to 0");
       } catch (err) {
         setError("Error starting sensor data collection.");
