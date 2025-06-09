@@ -7,9 +7,6 @@ const sensorData = {
   spo2: null,
 };
 
-// Sensor flag variable
-let sensorFlag = 0;  // 0 = idle, 1 = start reading
-
 // Controller function to collect sensor data (Stage-2) and update patient data
 const collectSensorData = async (req, res) => {
   try {
@@ -52,27 +49,8 @@ const sendPatientData = async (req, res) => {
   }
 };
 
-// NEW: Set sensorFlag from frontend
-const setSensorFlag = (req, res) => {
-  const value = parseInt(req.query.value);
-  if (isNaN(value) || (value !== 0 && value !== 1)) {
-    return res.status(400).json({ error: "Invalid flag value" });
-  }
-
-  sensorFlag = value;
-  console.log(`Sensor flag updated to: ${sensorFlag}`);
-  res.status(200).json({ status: "ok", flag: sensorFlag });
-};
-
-// NEW: Get sensorFlag (polled by ESP8266)
-const getSensorFlag = (req, res) => {
-  res.status(200).json({ flag: sensorFlag });
-};
-
 // Final export
 export default {
   collectSensorData,
   sendPatientData,
-  setSensorFlag,
-  getSensorFlag,
 };
