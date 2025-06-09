@@ -1,10 +1,7 @@
 import React, { useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom"; // React Router for redirection
-// import baseurl from "../constant.js"
 import urls from '../constant.js';
-// urls.baseurl
-// urls.baseurlsensor
 
 // console.log(baseurl);
 const Stage1 = () => {
@@ -51,8 +48,8 @@ const Stage1 = () => {
     setIsSubmitting(true);
     try {
       await axios.post(`${urls.baseurl}/api/patient-details`, patientData);
-      alert("Data submitted successfully!");
-      navigate("/stage-2"); // Redirect to Stage-2 after success
+      alert("Data Saved successfully!");
+      navigate("/sensor/data"); // Redirect to Stage-2 after success
     } catch (error) {
       setError("Error submitting data. Please try again.");
     } finally {
@@ -62,7 +59,7 @@ const Stage1 = () => {
 
   return (
     <div className="form-container">
-      <h2>Stage-1: Enter Patient Details</h2>
+      <h2>Enter Patient Details</h2>
       {error && <p className="error">{error}</p>}
       <form onSubmit={handleSubmit}>
         {/* Patient form fields */}

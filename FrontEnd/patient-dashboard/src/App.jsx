@@ -12,9 +12,9 @@ function App() {
     <Router>
       <Routes>
         <Route path="/" element={<Stage1 />} />
-        <Route path="/stage-1" element={<Stage1 />} />
-        <Route path="/stage-2" element={<Stage2 />} />
-        <Route path="/stage-3" element={<Stage3 />} />
+        <Route path="/patient/info" element={<Stage1 />} />
+        <Route path="/sensor/data" element={<Stage2 />} />
+        <Route path="/patient/predict" element={<Stage3 />} />
       </Routes>
     </Router>
   );

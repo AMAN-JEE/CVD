@@ -1,11 +1,7 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
-// import baseurl from "../constant.js";
-// import baseurlsensor from "../constant.js";
 import urls from '../constant.js';
-// urls.baseurl
-// urls.baseurlsensor
 
 const Stage2 = () => {
   const [sensorData, setSensorData] = useState({
@@ -42,23 +38,6 @@ const Stage2 = () => {
   };
 
   // Function to start sensor data reading
-  // const startSensorReading = async () => {
-  //   startCountdown();
-  //   setBtndisable(true);
-
-  //   setTimeout(async () => {
-  //     try {
-  //       setIsCollecting(true);
-  //       const response = await axios.get(`${baseurl}/api/start-sensor`);
-  //       setSensorData(response.data); // Simulating real-time data fetch
-  //     } catch (err) {
-  //       setError("Error starting sensor data collection.");
-  //     } finally {
-  //       setIsCollecting(false);
-  //     }
-  //   }, 3000);
-  // };
-
   const startSensorReading = async () => {
   try {
     // 1️⃣ First, SET FLAG = 1
@@ -93,12 +72,12 @@ const Stage2 = () => {
 };
 
   const proceedToStage3 = () => {
-    navigate("/stage-3");
+    navigate("/patient/predict");
   };
 
   return (
     <div className="sensor-container">
-      <h2>Stage-2: Sensor Data Collection</h2>
+      <h2>Sensor Data Collection</h2>
       {error && <p className="error">{error}</p>}
 
       {isCollecting ? (
@@ -133,7 +112,7 @@ const Stage2 = () => {
           )}
           {sensorData.heartRate && (
             <div className="sensor-container">
-              <button onClick={proceedToStage3}>Proceed Next</button>
+              <button onClick={proceedToStage3}>Go Next</button>
             </div>
           )}
         </>

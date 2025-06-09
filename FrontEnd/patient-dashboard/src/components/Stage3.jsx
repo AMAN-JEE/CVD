@@ -3,10 +3,7 @@ import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import jsPDF from "jspdf";
 import autoTable from "jspdf-autotable";
-// import baseurl from "../constant.js";
 import urls from '../constant.js';
-// urls.baseurl
-// urls.baseurlsensor
 
 const Stage3 = () => {
   const [predictionResult, setPredictionResult] = useState(null);
@@ -82,7 +79,7 @@ const Stage3 = () => {
 
   return (
     <div className="result-container">
-      <h2>Stage-3: Heart Disease Prediction Result</h2>
+      <h2>Heart Disease Prediction Result</h2>
       {error && <p className="error">{error}</p>}
 
       {predictionResult && patientData.name ? (
@@ -141,7 +138,7 @@ const Stage3 = () => {
         <p>Loading patient data...</p>
       )}
       <div className="download-btn">
-        <button onClick={proceedToHome}>Back to Home</button>
+        <button onClick={proceedToHome}>Go To Home</button>
       </div>
     </div>
   );

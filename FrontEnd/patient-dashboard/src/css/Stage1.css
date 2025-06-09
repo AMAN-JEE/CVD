@@ -3,7 +3,7 @@
 body {
   margin: 0;
   padding: 0;
-  background: linear-gradient(to right, #c8e8f9, #ffffff);
+  background: linear-gradient(to right, #7ecefd, #ffffff);
   font-family: "Poppins", sans-serif;
   color: #2e3b4e;
 }
@@ -80,6 +80,7 @@ form select:focus {
   display: flex;
   justify-content: space-between;
   margin-top: 20px;
+  gap: 5%;
 }
 
 .sub-btn button {
